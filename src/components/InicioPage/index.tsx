@@ -21,7 +21,7 @@ export const InicioPage = () => {
         <Header />
         <InicioBody />
       </Box>
-      <Box>
+      <Box h={"50vh"}>
         <Cursos />
       </Box>
     </Box>
