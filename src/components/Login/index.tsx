@@ -1,75 +1,73 @@
-// RegisterComponent.tsx
+// Login.tsx
 
 import React, { useState } from "react";
-import {
-  auth,
-  createUserWithEmailAndPassword,
-  database,
-  ref,
-  set,
-} from "../../firebaseConfig";
+import { auth, signInWithEmailAndPassword } from "../../firebaseConfig";
 
-export const Login: React.FC = () => {
+import Swal from "sweetalert2";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+} from "@chakra-ui/react";
+
+const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
 
-  const handleSignUp = async () => {
+  const handleLogin = async () => {
     try {
-      // Crear un nuevo usuario con correo electrónico y contraseña
-      const userCredential = await createUserWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-
-      // Obtener el ID del usuario recién creado
-      const userId = userCredential.user?.uid;
-
-      // Guardar información adicional en la base de datos
-      if (userId) {
-        // Ejemplo con Realtime Database
-        const userDatabaseRef = ref(database, `users/${userId}`);
-        await set(userDatabaseRef, {
-          name,
-          age,
-        });
-
-        console.log("Usuario registrado exitosamente");
-      }
+      const user = userCredential.user;
+      console.log("Usuario autenticado:", user);
+      Swal.fire({
+        title: "Usuario autenticado",
+        text: "Bienvenido " + user.email,
+        icon: "success",
+      });
     } catch (error) {
-      console.error("Error al registrar usuario:", error.message);
+      Swal.fire({
+        title: "Usuario no encontrado",
+        text: "Revisa e ingresa nuevamente",
+        icon: "error",
+      });
+      console.error("Error al iniciar sesión:", error.message);
     }
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Nombre"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Edad"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="Correo electrónico"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleSignUp}>Registrarse</button>
-    </div>
+    <Box>
+      <Heading fontSize={"medium"}>Iniciar Sesión</Heading>
+      <FormControl>
+        <FormLabel>Email</FormLabel>
+        <Input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </FormControl>
+
+      <br />
+      <FormControl>
+        <FormLabel>Password</FormLabel>
+        <Input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </FormControl>
+
+      <br />
+      <Button onClick={handleLogin}>Iniciar Sesión</Button>
+    </Box>
   );
 };
+
+export default Login;

@@ -8,6 +8,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -31,12 +32,14 @@ export const Cursos = () => {
     id: number;
     url: string;
     title: string;
+    description: string;
   } | null>(null);
 
   const handleImageClick = (img: {
     id: number;
     url: string;
     title: string;
+    description: string;
   }) => {
     setSelectedImage(img);
     onOpen();
@@ -87,10 +90,13 @@ export const Cursos = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{selectedImage?.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {selectedImage && <Heading>{selectedImage.title}</Heading>}
+            <br />
+            {selectedImage && (
+              <Text fontWeight={"bold"}>{selectedImage.description}</Text>
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>

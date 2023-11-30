@@ -3,6 +3,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Modal,
   ModalBody,
@@ -16,6 +17,8 @@ import {
 import { useRef } from "react";
 // import { Login } from "../Login";
 import { useState } from "react";
+import Swal from "sweetalert2";
+
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -23,6 +26,7 @@ import {
   ref,
   set,
 } from "../../firebaseConfig";
+import Login from "../Login";
 
 function ModalRegistrar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,6 +50,11 @@ function ModalRegistrar() {
 
       // Obtener el ID del usuario recién creado
       const userId = userCredential.user?.uid;
+      Swal.fire({
+        title: "Usuario Registrado",
+        text: "Con el correo: " + email,
+        icon: "success",
+      });
 
       // Guardar información adicional en la base de datos
       if (userId) {
@@ -60,6 +69,11 @@ function ModalRegistrar() {
       }
     } catch (error) {
       console.error("Error al registrar usuario:", error.message);
+      Swal.fire({
+        title: "Error",
+        text: "Correo ya registrado",
+        icon: "error",
+      });
     }
   };
 
@@ -97,9 +111,12 @@ function ModalRegistrar() {
           backdropFilter="blur(10px) hue-rotate(90deg)"
         />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>Log-in</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
+            <FormControl>
+              <Login />
+            </FormControl>
             <FormControl>
               <FormLabel>First name</FormLabel>
               <Input
@@ -110,6 +127,8 @@ function ModalRegistrar() {
                 onChange={(e) => setName(e.target.value)}
               />
             </FormControl>
+
+            <ModalHeader>Sign-in</ModalHeader>
 
             <FormControl mt={4}>
               <FormLabel>Last name</FormLabel>
@@ -140,7 +159,6 @@ function ModalRegistrar() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </FormControl>
-            {/* <Login /> */}
           </ModalBody>
 
           <ModalFooter>
