@@ -3,7 +3,6 @@ import {
   Button,
   FormControl,
   FormLabel,
-  Heading,
   Input,
   Modal,
   ModalBody,

@@ -48,6 +48,7 @@ export const Cursos = () => {
   const MotionBox = motion(Box);
   return (
     <MotionBox
+      id={"cursos"}
       w={"100%"}
       h={"50vh"}
       initial={{ opacity: 0 }}

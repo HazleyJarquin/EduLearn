@@ -6,6 +6,7 @@ import { Cursos } from "../Cursos";
 export const InicioPage = () => {
   return (
     <Box
+      id="inicio"
       w={"full"}
       h={"100%"}
       __css={{

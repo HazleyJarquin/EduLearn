@@ -9,10 +9,11 @@ export const Header = () => {
       px={"20px"}
       w={"100%"}
       h={"10vh"}
-      position="absolute"
       display={"flex"}
       justifyContent={"space-between"}
-      zIndex={999}
+      position="fixed" // Establecer la posición fija
+      width="100%" // Hacer que la barra ocupe el 100% del ancho
+      zIndex={1000}
     >
       <Image src={Logo} />
 
@@ -26,14 +27,19 @@ export const Header = () => {
         fontSize={"1.2em"}
       >
         <ListItem>
-          <Link _hover={{ textDecoration: "none", color: "blue" }}>Inicio</Link>
+          <Link
+            href="#inicio"
+            _hover={{ textDecoration: "none", color: "blue" }}
+          >
+            Inicio
+          </Link>
         </ListItem>
         <ListItem>
-          <Link _hover={{ textDecoration: "none", color: "blue" }}>Cursos</Link>
-        </ListItem>
-        <ListItem>
-          <Link _hover={{ textDecoration: "none", color: "blue" }}>
-            Contacto
+          <Link
+            href="#cursos"
+            _hover={{ textDecoration: "none", color: "blue" }}
+          >
+            Cursos
           </Link>
         </ListItem>
       </UnorderedList>
