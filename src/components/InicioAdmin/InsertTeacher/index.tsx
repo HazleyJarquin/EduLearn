@@ -3,23 +3,17 @@ import {
   Button,
   FormLabel,
   Heading,
-  Image,
   Input,
   InputGroup,
   InputRightElement,
-  Text,
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
-import { Outlet } from "react-router-dom";
-
-import loginImage from "../../assets/SanNicolasLogin.png";
-
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
-export const LogIn = () => {
+export const InsertTeacher = () => {
   const [isShow, setShow] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
@@ -39,22 +33,31 @@ export const LogIn = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3001/api/login", {
+      const response = await fetch("http://localhost:3001/api/insertteachers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
+
       if (response.ok) {
-        console.log("Inicio de sesión exitoso");
-        window.location.href = "/inicioAdmin";
-      } else {
-        const data = await response.json();
-        console.error("Error en el inicio de sesión:", data.message);
+        console.log("Usuario insertado con éxito");
         Swal.fire({
-          title: "Correo no registrado o contraseña incorrecta",
-          text: "Favor registrarse o ingresar datos correctos",
+          title: "Has sido registrado con exito",
+          text: "Inicia sesion con tu nueva cuenta",
+          icon: "success",
+        });
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+        });
+      } else {
+        console.error("Error al insertar usuario");
+        Swal.fire({
+          title: "Error al Registrarse",
+          text: "Correo ya registrado",
           icon: "error",
         });
       }
@@ -69,36 +72,15 @@ export const LogIn = () => {
       display={"flex"}
       justifyContent={"center"}
       alignItems={"center"}
-      bgGradient={["linear(to-b, #ECE9E6, #FFFFFF)"]}
       w={"100%"}
-      h={"100vh"}
+      h={"100%"}
     >
-      <Box w="90%" h={"90%"} display={"flex"} rounded={"lg"} shadow={"md"}>
+      <Box w="100%" h={"100%"} display={"flex"}>
         <Box
-          w={"60%"}
-          overflow={"hidden"}
+          w={"full"}
+          bg={"white"}
           roundedTopLeft={"lg"}
           roundedBottomLeft={"lg"}
-        >
-          <Image
-            roundedTopLeft={"lg"}
-            roundedBottomLeft={"lg"}
-            w={"100%"}
-            h={"full"}
-            src={loginImage}
-            style={{ filter: "brightness(50%)" }}
-            __css={{ transition: "transform 0.3s ease-in-out" }}
-            _hover={{
-              transform: "scale(1.2)",
-            }}
-            objectFit={"cover"}
-          />
-        </Box>
-        <Box
-          w={"40%"}
-          bg={"white"}
-          roundedTopRight={"lg"}
-          roundedBottomRight={"lg"}
           p={"1em"}
           display={"flex"}
           flexDirection={"column"}
@@ -108,12 +90,21 @@ export const LogIn = () => {
         >
           <Box>
             <Heading size="lg" color={"blue"}>
-              Iniciar Sesion
+              Registrar Maestro
             </Heading>
           </Box>
           <Box>
             <form onSubmit={handleSubmit}>
-              <FormLabel>Enter Your Email</FormLabel>
+              <FormLabel>Username</FormLabel>
+              <Input
+                type="text"
+                name="username"
+                placeholder="Nombre de usuario"
+                value={formData.username}
+                onChange={handleChange}
+                mb={5}
+              />
+              <FormLabel>Email</FormLabel>
               <Input
                 type="email"
                 name="email"
@@ -122,7 +113,7 @@ export const LogIn = () => {
                 onChange={handleChange}
                 mb={5}
               />
-              <FormLabel>Enter your Password</FormLabel>
+              <FormLabel>Create a Password</FormLabel>
               <InputGroup>
                 <Input
                   type={isShow ? "text" : "password"}
@@ -148,7 +139,6 @@ export const LogIn = () => {
                   </Button>
                 </InputRightElement>
               </InputGroup>
-
               <Button
                 type="submit"
                 bg={"blue"}
@@ -158,14 +148,12 @@ export const LogIn = () => {
                   bgColor: "purple",
                 }}
               >
-                Iniciar sesion
+                Sign-Up
               </Button>
             </form>
           </Box>
-          <Text color={"blue"}>Olvido su contraseña?</Text>
         </Box>
       </Box>
-      <Outlet />
     </VStack>
   );
 };

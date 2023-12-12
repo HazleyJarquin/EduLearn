@@ -1,30 +1,86 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import { Header } from "./Header";
 import { InicioBody } from "../InicioBody";
+// import { Cursos } from "../Cursos";
+
+import { ConApi } from "../ConApi";
 import { Cursos } from "../Cursos";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import { imgs } from "../../api/apiEduLearn";
+
+import { Pagination, A11y, Autoplay } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { useEffect } from "react";
+import { useAnimation, motion } from "framer-motion";
 
 export const InicioPage = () => {
   return (
     <Box
+      w={"100%"}
+      h={"100vh"}
+      position={"relative"}
       id="inicio"
-      w={"full"}
-      h={"100%"}
-      __css={{
-        backgroundImage:
-          "linear-gradient(0deg, rgba(255,255,255,0.85), rgba(255,255,255,0.85) ), url(https://images.unsplash.com/photo-1432821596592-e2c18b78144f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
-        backgroundPosition: "center",
-      }}
-      // bgGradient="linear(to-r, gray.100, gray.200)"
+      bg={"#FFFFFF"}
       display={"flex"}
       flexDirection={"column"}
     >
-      <Box h={"100vh"}>
-        <Header />
+      <Box h={"100vh"} w={"100%"} position={"absolute"} zIndex={999}>
         <InicioBody />
       </Box>
-      <Box h={"50vh"}>
+      <Box position={"relative"} w={"100%"} h={"100%"} bg={"black"}>
+        <Swiper
+          modules={[Pagination, Autoplay, A11y]}
+          slidesPerView={4}
+          autoplay={{ delay: 2000, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          style={{ height: "100%", width: "100%", opacity: 0.2 }}
+        >
+          {imgs.map((img) => (
+            <SwiperSlide key={img.id}>
+              <Image
+                cursor={"pointer"}
+                position={"relative"}
+                // rounded={"lg"}
+                w={"100%"}
+                h={"100%"}
+                objectFit={"cover"}
+                src={img.url}
+                _hover={{
+                  filter: "brightness(40%)",
+                }}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </Box>
+      {/* <Box>
+       {" "}
+       <Box
+         id="inicio"
+         w={"100%"}
+         h={"100vh"}
+         bg={"black"}
+         position={"absolute"}
+       >
+         
+       </Box>
+        */}
+
+      {/* <motion.div animate={controls}>
+      
+        <InicioBody />
+      </motion.div> */}
+      {/* <Box mt={"100px"} h={"50vh"}>
+        <ConApi />
         <Cursos />
       </Box>
+      </Box> 
+     </Box>   */}
     </Box>
   );
 };

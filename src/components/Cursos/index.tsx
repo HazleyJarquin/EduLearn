@@ -6,12 +6,12 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalHeader,
   ModalOverlay,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import axios from "axios";
 // import ImgBody from "../../assets/ImgBody.png";
 
 import { imgs } from "../../api/apiEduLearn";
@@ -23,7 +23,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const Cursos = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,6 +44,23 @@ export const Cursos = () => {
     setSelectedImage(img);
     onOpen();
   };
+
+  //Database EduLearn
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/Users");
+        setData(response.data);
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const MotionBox = motion(Box);
   return (

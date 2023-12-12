@@ -19,7 +19,7 @@ import loginImage from "../../assets/SanNicolasLogin.png";
 
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
-export const LogIn = () => {
+export const StudentLogin = () => {
   const [isShow, setShow] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
@@ -39,7 +39,7 @@ export const LogIn = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3001/api/login", {
+      const response = await fetch("http://localhost:3001/api/students", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export const LogIn = () => {
       });
       if (response.ok) {
         console.log("Inicio de sesión exitoso");
-        window.location.href = "/inicioAdmin";
+        window.location.href = "/inicioStudent";
       } else {
         const data = await response.json();
         console.error("Error en el inicio de sesión:", data.message);
